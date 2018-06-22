@@ -1,0 +1,2 @@
+﻿//http://www.sqlite.org/c3ref/backup_finish.html 
+//http://www.sqlite.org/backup.html

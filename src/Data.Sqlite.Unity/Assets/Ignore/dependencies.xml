@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"  ?>
+<dependencies xmlns="urn:schema-lwj:build-dependencies"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+  urn:schema-lwj:build-dependencies LWJ/Dependencies/lwj.build.dependencies.xsd"
+  >
+  <dir>build/debug</dir>
+  <item to="Assets/LWJ/Data/Sqlite">
+    <item from="LWJ.Data.Sqlite"  ext="dll" />
+  </item>
+</dependencies>

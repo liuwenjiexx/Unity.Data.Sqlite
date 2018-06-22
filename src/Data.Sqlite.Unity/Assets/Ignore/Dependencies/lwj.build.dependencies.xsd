@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="urn:schema-lwj:build-dependencies"
+    xmlns="urn:schema-lwj:build-dependencies"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified" >
+
+  <xs:element name="dependencies">
+    <xs:complexType>  
+      <xs:sequence>        
+        <xs:element ref="dir" minOccurs="0" maxOccurs="unbounded"/>        
+        <xs:choice minOccurs="0" maxOccurs="unbounded">          
+          <xs:element ref="include" />
+          <xs:element ref="item"/>          
+        </xs:choice>        
+      </xs:sequence>
+      <xs:attribute name="log" type="xs:boolean">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            enable log info
+          </xs:documentation>
+        </xs:annotation>        
+      </xs:attribute>
+      <xs:attribute name="interval" type="xs:float">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Update Interval
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+ 
+  
+  <xs:simpleType name="directory">
+    <xs:annotation>
+      <xs:documentation xml:lang="zh">
+        文件夹路径
+      </xs:documentation>
+      <xs:documentation xml:lang="en">
+        directory path
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:simpleType name="file">
+    <xs:annotation>
+      <xs:documentation xml:lang="zh">
+        文件路径
+      </xs:documentation>
+      <xs:documentation xml:lang="en">
+        file path
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="fileOrDir">
+    <xs:annotation>
+      <xs:documentation xml:lang="zh">
+        文件或文件夹
+      </xs:documentation>
+      <xs:documentation xml:lang="en">
+        file or directory
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="fileExtensions">
+    <xs:annotation>
+      <xs:documentation xml:lang="zh">
+        扩展名，不包含(.)，多个用逗号(,)分隔
+      </xs:documentation>
+      <xs:documentation xml:lang="en">
+        Extension is not included (. ), separated by commas(,)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="dir"  >
+    <xs:annotation>
+      <xs:documentation  xml:lang="zh">
+        要查找的源文件夹，如果from没有找到，则在父级文件夹查找，如: dir+/+include.from
+      </xs:documentation>
+      <xs:documentation xml:lang="en">
+        The source folder you want to find, if from is not found, then the parent folder to find, such as: dir+/+include.from
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="directory">
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="include">
+    <xs:annotation>
+      <xs:documentation xml:lang="zh">
+        要包含外部的 dependencies.xml文件，import文件内的当前目录为该文件目录，to目录为UnityProject
+      </xs:documentation>
+      <xs:documentation xml:lang="en">
+        dependencies.xml to include external files, import list of files in the current directory for the file, to list for UnityProject
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="file">
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="item" >
+    <xs:annotation>
+      <xs:documentation xml:lang="zh">
+        导入的文件，可以嵌套使用，嵌套使用时路径为：from=base.from+/+from，to=base.to+/+to
+      </xs:documentation>
+      <xs:documentation xml:lang="en">
+        Imported files can be nested, nested path is: from=base.from+/+from,to=base.to+/+to
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="item"/>
+        <xs:element ref="before" />
+        <xs:element ref="after" />
+      </xs:choice>
+      <xs:attribute name="from" type="fileOrDir">
+        <xs:annotation>
+          <xs:documentation xml:lang="zh">
+            复制的源文件名或文件夹，如果from没有找到，则在父级目录查找
+            如果from为文件，则复制文件
+            如果from为文件夹，则复制文件夹
+          </xs:documentation>
+          <xs:documentation xml:lang="en">
+            Copy the source file name or folder, if from is not found, or the parent directory to find
+            If from a file, the file is copied
+            If the from folder, copy the folder
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="to" type="directory">
+        <xs:annotation>
+          <xs:documentation xml:lang="zh">
+            复制的目标文件夹
+          </xs:documentation>
+          <xs:documentation xml:lang="en">
+            Destination folder for copied
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="ext" type="fileExtensions">
+        <xs:annotation>
+          <xs:documentation>
+            from=from+.+ext
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="command">
+    <xs:annotation>
+      <xs:documentation xml:lang="zh">
+        要执行的shell命令
+      </xs:documentation>
+      <xs:documentation xml:lang="en">
+        The command to execute
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string"/>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="executable">
+    <xs:complexContent>
+      <xs:extension  base="command">
+        <xs:attribute name="ext" type="fileExtensions">
+          <xs:annotation>
+            <xs:documentation xml:lang="zh">
+              如果为空则匹配全部
+            </xs:documentation>
+            <xs:documentation xml:lang="en">
+              if empty then match all
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:element name="before"  type="executable">
+    <xs:annotation>
+      <xs:documentation xml:lang="zh">
+        在复制之前执行命令，当前目录为复制的源文件目录
+      </xs:documentation>
+      <xs:documentation xml:lang="en">
+        execute commands before copying, replication of the current directory for source files directory
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="after"  type="executable">
+    <xs:annotation>
+      <xs:documentation xml:lang="zh">
+        在复制之后执行命令，当前目录为复制的目标文件目录
+      </xs:documentation>
+      <xs:documentation xml:lang="en">
+        execute the command after copying, the current directory is copied to the destination file directory
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+</xs:schema>
