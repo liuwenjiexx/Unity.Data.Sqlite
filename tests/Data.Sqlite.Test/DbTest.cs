@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.IO;
 
-namespace LWJ.Data.Sqlite.Test
+namespace System.Data.Sqlite.Test
 {
     [TestClass]
     public class DbTest
@@ -35,7 +36,7 @@ namespace LWJ.Data.Sqlite.Test
                 using (db.BeginTransaction())
                 {
                     db.NonQuery("insert into table1 (stringField) values(@stringField)", "text");
-                    var result = db.QueryFirst<Dictionary<string,object>>("select stringField from table1 where rowid=@rowid", db.GetLastInsertRowID());
+                    var result = db.QueryFirst<Dictionary<string, object>>("select stringField from table1 where rowid=@rowid", db.GetLastInsertRowID());
                     Assert.AreEqual("text", result["stringField"]);
                 }
             }
@@ -82,7 +83,28 @@ namespace LWJ.Data.Sqlite.Test
             SqliteDatabase db = new SqliteDatabase("../../db/test.db", 0);
             return db;
         }
+        [TestMethod]
+        public void CreateDB_FileVersion()
+        {
+            if (File.Exists(FileVersionDB.Location))
+                File.Delete(FileVersionDB.Location);
+
+            var db = new FileVersionDB();
+            db.Open();
+            Assert.IsTrue(db.IsOpened);
+            Assert.AreEqual(0, db.Scalar<int>("select count(*) from table1"));
+            db.NonQuery("insert into table1 (float32Field) values(@float32Field)", 1);
+            Assert.AreEqual(1, db.Scalar<int>("select count(*) from table1"));
+        }
+        [TestMethod]
+        public void OpenDB_FileVersion()
+        {
+            var db = new OpenFileVersionDB();
+            db.Open();
+            Assert.IsTrue(db.IsOpened);
+        }
     }
+
 
     class FileDB : SqliteDatabase
     {
@@ -91,6 +113,33 @@ namespace LWJ.Data.Sqlite.Test
         {
         }
 
+    }
+
+    class FileVersionDB : SqliteDatabase
+    {
+        public FileVersionDB()
+            : base(Location, 1)
+        {
+        }
+
+        public static string Location = "filever.db";
+
+        protected override void OnCreateDatabase()
+        {
+            NonQuery("  CREATE TABLE [table1] (  [id] INTEGER PRIMARY KEY AUTOINCREMENT,  [stringField] VARCHAR(50),  [int32Field] INT,  [int64Field] INT64,  [textField] TEXT,  [boolField] BOOL,  [float32Field] FLOAT,  [float64Field] DOUBLE)");
+        }
+    }
+
+    class OpenFileVersionDB : SqliteDatabase
+    {
+        public OpenFileVersionDB()
+            : base(Location, V)
+        {
+        }
+         
+        public static string Location = "C:/Users/liuwenjie/AppData/LocalLow/LWJ/My Space/local.sqlite";
+        public static int V = 17;
+         
     }
 
     class MemoryDB : SqliteDatabase

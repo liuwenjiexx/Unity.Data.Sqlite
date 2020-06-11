@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LWJ.Data.Sqlite.Test
+namespace System.Data.Sqlite.Test
 {
 
     [TestClass]

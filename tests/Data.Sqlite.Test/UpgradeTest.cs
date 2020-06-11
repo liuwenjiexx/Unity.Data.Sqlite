@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LWJ.Data.Sqlite.Test
+namespace System.Data.Sqlite.Test
 {
     /// <summary>
     /// UpgradeTest 的摘要说明

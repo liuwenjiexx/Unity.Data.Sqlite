@@ -1,8 +1,8 @@
 ﻿
 using System.Collections;
-using LWJ.Data.Sqlite;
+using System.Data.Sqlite;
 
-namespace LWJ.Data
+namespace System.Data
 {
     
 
