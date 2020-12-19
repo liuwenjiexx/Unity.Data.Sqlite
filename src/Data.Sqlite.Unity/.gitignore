@@ -1,7 +1,0 @@
-﻿/Library/
-/Temp/
-/*.csproj
-/*.sln
-/ProjectSettings/ProjectVersion.txt
-!*.meta
-
