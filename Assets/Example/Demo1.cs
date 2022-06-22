@@ -60,7 +60,7 @@ public class Demo1 : MonoBehaviour
                     {
                         while (reader.Read())
                         {
-                            Debug.Log($"data, float32: {reader["float32"]}");
+                            Debug.Log($"id: {reader["id"]}, float32: {reader["float32"]}");
                         }
                     }
                 }
