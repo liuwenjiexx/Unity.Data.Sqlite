@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace System.Data.Sqlite
+namespace Data.Sqlite
 {
     public class CommandException : DataException
     {
@@ -19,7 +19,7 @@ namespace System.Data.Sqlite
         {
         }
         public CommandException(IDbCommand command, string message, Exception innerException)
-            : base(message ?? Resource1.DBCmdException, innerException)
+            : base(message ?? "Execute DB Command Exception", innerException)
         {
             this.Command = command;
         }
@@ -37,12 +37,12 @@ namespace System.Data.Sqlite
                 var cmd = Command;
                 if (cmd != null)
                 {
-                    message += Resource1.DBCmd_CmdText.FormatArgs(cmd.CommandText);
+                    message += "CommandText: {0}".FormatArgs(cmd.CommandText);
                     if (cmd.Parameters != null)
                     {
                         foreach (IDbDataParameter p in cmd.Parameters)
-                        { 
-                            message += Resource1.DBCmd_Param.FormatArgs(p.ParameterName, p.Value);
+                        {
+                            message += "Parameter Name: {0}, Value: <{1}>".FormatArgs(p.ParameterName, p.Value);
                         }
                     }
                 }

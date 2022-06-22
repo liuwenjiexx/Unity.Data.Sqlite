@@ -6,19 +6,7 @@ Unity 使用Sqlite数据库，Unity3D usage sqlite database
 
 ## 使用
 
-### 定义表结构
-
-```c#
-class Table1
-{
-    public int id;
-    public float float32Field;
-}
-```
-
-
-
-### 继承 `SqliteDatabase` 实现数据库类
+1. 定义数据库
 
 ```c#
 class MyDB : SqliteDatabase
@@ -27,32 +15,77 @@ class MyDB : SqliteDatabase
     	: base(Location, 1)
     {}
 
-    public static string Location = Application.persistentDataPath + "/local";
+    public static string Location = Application.persistentDataPath + "/local.db";
     protected override void OnCreateDatabase()
     {
-        NonQuery("CREATE TABLE [table1] ([id] INTEGER PRIMARY KEY AUTOINCREMENT, [float32Field] FLOAT)");
+        NonQuery("CREATE TABLE [table1] ([id] INTEGER PRIMARY KEY AUTOINCREMENT, [float32] FLOAT)");
     }
 }
 ```
 
+2. 初始化DB
 
+   ```c#
+   MyDB db = new MyDB();
+   db.Open();
+   ```
 
-### 初始化DB
+3. 添加数据
 
+   ```c#
+    using (var cmd = db.Connection.CreateCommand())
+    {
+        cmd.CommandText = "insert into table1 (float32) values(@float32)";
+        cmd.Parameters.Add("float32", System.Data.DbType.Single).Value = Random.value;
+        cmd.ExecuteNonQuery();
+    }
+   ```
+
+4. 查询数据
+
+   ```c#
+   using (var cmd = db.Connection.CreateCommand())
+   {
+       cmd.CommandText = "select * from table1";
+       using (var reader = cmd.ExecuteReader())
+       {
+           while (reader.Read())
+           {
+           	Debug.Log($"data, float32: {reader["float32"]}");
+           }
+       }
+   }
+   ```
+
+   
+
+   
+
+   
+
+## SqliteDatabase
+
+定义表结构
+
+```c#
+class Table1
+{
+    public int id;
+    public float float32;
+}
 ```
-MyDB db = new MyDB();
-db.Open();
+
+### 添加数据
+
+```c#
+db.NonQuery("insert into table1 (float32) values(@float32)", Random.value);
 ```
 
-#### 添加数据
+声明顺序传递参数  `@param`
 
-```
-db.NonQuery("insert into table1 (float32Field) values(@float32Field)", Random.value);
-```
+### 查询数据
 
-#### 查询数据
-
-```
+```c#
 db.Query<Table1>("select * from table1")
 ```
 
@@ -111,3 +144,10 @@ db.Query<Table1>("select * from table1")
 #### DeleteProperty
 
 删除元数据表属性
+
+
+
+## 编辑器使用
+
+只在编辑器使用 `Sqlite`, 运行时不使用，在 `Player Settings/Scripting Define Symbols` 添加宏 `DATABASE_SQLITE_EDITOR`，在构建时将排除 `Sqlite` 所有程序集 (`.dll`, `.so`)
+

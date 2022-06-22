@@ -10,8 +10,7 @@
     "database",
     "db"
   ],
-  "category": "Unity",
+  "category": "Database",
   "dependencies": {
-  },
-  "repoPackagePath": "../UnityPackages"
+  }
 }

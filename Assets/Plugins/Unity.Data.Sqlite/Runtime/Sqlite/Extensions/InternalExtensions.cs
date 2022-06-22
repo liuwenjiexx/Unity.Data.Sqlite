@@ -3,7 +3,7 @@ using System.Collections;
 using System.Reflection;
 using System.Text;
 
-namespace System.Data.Sqlite
+namespace Data.Sqlite
 {
     internal static class InternalExtensions
     {

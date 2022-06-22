@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using System.Data;
 using System.Data.Common;
 
-namespace System.Data.Sqlite
+namespace Data.Sqlite
 {
 
 
@@ -29,12 +29,12 @@ namespace System.Data.Sqlite
         private const int dbVersion = 3;
         private const string FileDbFormat = "URI=file:{0}";
         private const string FileAndVersionDBFormat = "URI=file:{0},version={1}";
-        private const string MetadataTableName = "_sys_metadata";
+        private const string MetadataTableName = "__metadata";
         private const string Metadata_Version = "_db_version_";
         private const string Metadata_Owner_ID = "_db_owner_id";
-        private const string DeleteMetadataCmdText = "delete from " + MetadataTableName + " where name=@name";
+        private const string DeleteMetadataCmdText = "delete from " + MetadataTableName + " where key=@key";
         private const string DeleteAllMetadataCmdText = "delete from " + MetadataTableName;
-        private const string InsertMetadataCmdText = "INSERT INTO " + MetadataTableName + " (name, value) VALUES (@name, @value)";
+        private const string InsertMetadataCmdText = "INSERT INTO " + MetadataTableName + " (key, value) VALUES (@key, @value)";
 
 
         public const string MemoryDBName = "Data Source=:memory:";
@@ -274,7 +274,7 @@ namespace System.Data.Sqlite
         private T GetProperty<T>(SqliteConnection conn, string name, T defaultValue, bool hasDefaultValue)
         {
             T value;
-            string sqlText = "select value from " + MetadataTableName + " where name=@name";
+            string sqlText = "select value from " + MetadataTableName + " where key=@key";
             using (var cmd = new SqliteCommand(sqlText, conn))
             {
                 AttachParameters(cmd, new object[] { name });
@@ -419,7 +419,7 @@ namespace System.Data.Sqlite
         protected void CreateMetadataTable()
         {
             string cmdText;
-            cmdText = "CREATE TABLE " + MetadataTableName + " ([name] NVARCHAR(50), [value] NVARCHAR(100))";
+            cmdText = "CREATE TABLE " + MetadataTableName + " ([key] NVARCHAR(50), [value] NVARCHAR(1024),PRIMARY KEY ([key]))";
 
             NonQuery(cmdText);
 
@@ -924,6 +924,8 @@ namespace System.Data.Sqlite
             }
 
         }
+
+        public SqliteConnection Connection => conn;
 
 
         #region Transaction
