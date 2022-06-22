@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Data.Sqlite
+namespace Yanmonet.Data.Sqlite
 {
     public static class SqliteDatabaseExtensions
     {

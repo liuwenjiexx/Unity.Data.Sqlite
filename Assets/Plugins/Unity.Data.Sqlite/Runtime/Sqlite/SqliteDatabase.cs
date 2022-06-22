@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using System.Data;
 using System.Data.Common;
 
-namespace Data.Sqlite
+namespace Yanmonet.Data.Sqlite
 {
 
 

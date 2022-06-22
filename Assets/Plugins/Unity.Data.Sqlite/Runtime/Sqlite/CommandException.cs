@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Data.Sqlite
+namespace Yanmonet.Data.Sqlite
 {
     public class CommandException : DataException
     {

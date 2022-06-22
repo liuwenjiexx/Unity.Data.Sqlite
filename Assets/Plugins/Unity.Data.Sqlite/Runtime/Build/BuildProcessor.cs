@@ -12,7 +12,7 @@ using UnityEditor.UnityLinker;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Data.Sqlite.Editor
+namespace Yanmonet.Data.Sqlite.Editor
 {
     class BuildProcessor : IFilterBuildAssemblies
 #if UNITY_ANDROID
@@ -20,7 +20,7 @@ namespace Data.Sqlite.Editor
 #endif
     {
         string[] SqliteAssemblys = new string[] {
-            "Data.Sqlite.dll",
+            "Yanmonet.Data.Sqlite.dll",
             "Mono.Data.Sqlite.dll",   
             "Mono.Data.SqliteClient.dll" ,
             "sqlite3.dll",
