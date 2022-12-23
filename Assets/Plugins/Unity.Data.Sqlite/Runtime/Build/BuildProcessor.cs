@@ -35,7 +35,7 @@ namespace Yanmonet.Data.Sqlite.Editor
         public string[] OnFilterAssemblies(BuildOptions buildOptions, string[] assemblies)
         {
 
-#if DATABASE_SQLITE_EDITOR
+#if EXCLUDE_DATABASE_SQLITE
             List<string> newAssemblies = new List<string>(assemblies);
 
             for (int i = newAssemblies.Count - 1; i >= 0; i--)
@@ -56,7 +56,7 @@ namespace Yanmonet.Data.Sqlite.Editor
         public void OnPostGenerateGradleAndroidProject(string path)
         {
 
-#if DATABASE_SQLITE_EDITOR
+#if EXCLUDE_DATABASE_SQLITE
             foreach (var file in Directory.GetFiles(path, "*.so", SearchOption.AllDirectories))
             {
                 string filename = Path.GetFileName(file);

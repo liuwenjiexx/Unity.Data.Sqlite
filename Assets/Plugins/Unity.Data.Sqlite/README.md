@@ -57,10 +57,18 @@ class MyDB : SqliteDatabase
    }
    ```
 
+   ```c#
+ using (var reader = cmd.Reader("select * from table1"))
+    {
+     while (reader.Read())
+        {
+   		var value = reader["field"];
+        }
+    }
+   ```
    
-
    
-
+   
    
 
 ## SqliteDatabase

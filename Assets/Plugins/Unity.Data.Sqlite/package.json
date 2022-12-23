@@ -1,5 +1,5 @@
 {
-  "name": "yanmonet.data.sqlite",
+  "name": "com.yanmonet.data.sqlite",
   "displayName": "Database Sqlite",
   "version": "0.0.1",
   "unity": "2019.1",
