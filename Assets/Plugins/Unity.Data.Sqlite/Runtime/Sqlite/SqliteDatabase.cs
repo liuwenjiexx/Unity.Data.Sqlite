@@ -1319,6 +1319,10 @@ namespace Yanmonet.Data.Sqlite
         }
 
 
+        public object ToDBValue(object value, Type dbValueType)
+        {
+            return ConvertToDBValue(value, dbValueType);
+        }
 
         public object ConvertToDBValue(object value, Type dbValueType)
         {
@@ -1345,6 +1349,14 @@ namespace Yanmonet.Data.Sqlite
             return (T)ConvertFromDBValue(dbValue, typeof(T));
         }
 
+        public T FromDBValue<T>(object dbValue)
+        {
+            return (T)ConvertFromDBValue(dbValue, typeof(T));
+        }
+        public object FromDBValue(object dbValue, Type valueType)
+        {
+            return ConvertFromDBValue(dbValue, valueType);
+        }
         public virtual object ConvertFromDBValue(object dbValue, Type valueType)
         {
             if (dbValue == null || dbValue == DBNull.Value)

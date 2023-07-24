@@ -12,5 +12,8 @@
   ],
   "category": "Database",
   "dependencies": {
+  },
+  "author": {
+    "name": "Yanmonet"
   }
 }
