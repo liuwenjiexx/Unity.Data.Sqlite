@@ -3,7 +3,7 @@ using System.Collections;
 using System.Reflection;
 using System.Text;
 
-namespace Yanmonet.Data.Sqlite
+namespace System.Data.Sqlite
 {
     internal static class InternalExtensions
     {

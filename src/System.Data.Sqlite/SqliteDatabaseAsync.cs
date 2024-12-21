@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Yanmonet.Data.Sqlite
+namespace System.Data.Sqlite
 {
 
     public partial class SqliteDatabase

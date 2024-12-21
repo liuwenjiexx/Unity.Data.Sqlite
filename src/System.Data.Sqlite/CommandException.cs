@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Yanmonet.Data.Sqlite
+namespace System.Data.Sqlite
 {
     public class CommandException : DataException
     {
@@ -19,7 +19,7 @@ namespace Yanmonet.Data.Sqlite
         {
         }
         public CommandException(IDbCommand command, string message, Exception innerException)
-            : base(message ?? "Execute DB Command Exception", innerException)
+            : base(message ?? Resource1.DBCmdException, innerException)
         {
             this.Command = command;
         }
@@ -37,12 +37,12 @@ namespace Yanmonet.Data.Sqlite
                 var cmd = Command;
                 if (cmd != null)
                 {
-                    message += "CommandText: {0}".FormatArgs(cmd.CommandText);
+                    message += Resource1.DBCmd_CmdText.FormatArgs(cmd.CommandText);
                     if (cmd.Parameters != null)
                     {
                         foreach (IDbDataParameter p in cmd.Parameters)
-                        {
-                            message += "Parameter Name: {0}, Value: <{1}>".FormatArgs(p.ParameterName, p.Value);
+                        { 
+                            message += Resource1.DBCmd_Param.FormatArgs(p.ParameterName, p.Value);
                         }
                     }
                 }
